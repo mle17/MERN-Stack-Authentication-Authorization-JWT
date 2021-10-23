@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem";
 import TodoService from "../Services/TodoService";
 import Message from "./Message";
 import { AuthContext } from "../Context/AuthContext";
+import { ListGroup } from "react-bootstrap";
 
 const Todos = (props) => {
   const [todo, setTodo] = useState({ name: "" });
@@ -46,11 +47,15 @@ const Todos = (props) => {
 
   return (
     <div>
-      <ul className="list-group">
+      <ListGroup className="list-group">
         {todos.map((todo) => {
-          return <TodoItem key={todo._id} todo={todo} />;
+          return ( 
+            <ListGroup.Item>
+              <TodoItem key={todo._id} todo={todo} />
+            </ListGroup.Item>
+          );
         })}
-      </ul>
+      </ListGroup>
       <br />
       <form onSubmit={onSubmit}>
         <label htmlFor="todo">Enter Todo</label>
