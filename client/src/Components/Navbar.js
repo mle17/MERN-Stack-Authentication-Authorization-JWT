@@ -2,49 +2,51 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../Services/AuthService";
 import { AuthContext } from "../Context/AuthContext";
+import { Nav } from "react-bootstrap";
 
 const Navbar = (props) => {
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
     useContext(AuthContext);
 
   const onClickLogoutHandler = () => {
-    AuthService.logout().then((data) => {
-      if (data.success) {
-        setUser(data.user);
-        setIsAuthenticated(false);
-      }
-    });
+    AuthService.logout()
+      .then((data) => {
+        if (data.success) {
+          setUser(data.user);
+          setIsAuthenticated(false);
+        }
+      });
   };
 
-  const unauthenticatedNavBar = () => {
+  const UnauthenticatedNavBar = () => {
     return (
       <>
-        <Link to="/">
+        <Nav.Link href="/">
           <li className="nav-item nav-link">Home</li>
-        </Link>
-        <Link to="/login">
+        </Nav.Link>
+        <Nav.Link href="/login">
           <li className="nav-item nav-link">Login</li>
-        </Link>
-        <Link to="/register">
+        </Nav.Link>
+        <Nav.Link href="/register">
           <li className="nav-item nav-link">Register</li>
-        </Link>
+        </Nav.Link>
       </>
     );
   };
 
-  const authenticatedNavBar = () => {
+  const AuthenticatedNavBar = () => {
     return (
       <>
-        <Link to="/">
+        <Nav.Link href="/">
           <li className="nav-item nav-link">Home</li>
-        </Link>
-        <Link to="/todos">
+        </Nav.Link>
+        <Nav.Link href="/todos">
           <li className="nav-item nav-link">Todos</li>
-        </Link>
+        </Nav.Link>
         {user.role === "admin" ? (
-          <Link to="/admin">
+          <Nav.Link href="/admin">
             <li className="nav-item nav-link">Admin</li>
-          </Link>
+          </Nav.Link>
         ) : null}
         <button
           type="button"
@@ -58,16 +60,15 @@ const Navbar = (props) => {
   };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link to="/">
+      <Nav.Link href="/">
         <div className="navbar-brand">NoobCoder</div>
-      </Link>
+      </Nav.Link>
       <div className="collapse navbar-collapse" id="navbarText">
         <ul className="navbar-nav mr-auto">
-          {!isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
+          {isAuthenticated ? <AuthenticatedNavBar/> : <UnauthenticatedNavBar/>}
         </ul>
       </div>
-    </nav>
-  );
+    </nav>  );
 };
 
 export default Navbar;
