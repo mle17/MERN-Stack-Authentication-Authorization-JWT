@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
-import TodoService from "../Services/TodoService";
 
 const TodoItem = (props) => {
   const [editTodoName, setEditTodoName] = useState(props.todo.name);

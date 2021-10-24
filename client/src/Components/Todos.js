@@ -37,10 +37,8 @@ const Todos = (props) => {
     });
   };
 
-  const onEdit = (e,todo) => {
+  const onEdit = (e, todo) => {
     e.preventDefault();
-    console.log("AAAA")
-    console.log(todo)
 
     TodoService.updateTodo(todo).then((data) => {
       const { message } = data;
@@ -92,9 +90,14 @@ const Todos = (props) => {
     <div>
       <ListGroup className="list-group">
         {todos.map((todo) => {
-          return ( 
+          return (
             <ListGroup.Item>
-              <TodoItem key={todo._id} todo={todo} onDelete={onDelete} onEdit={onEdit}/>
+              <TodoItem
+                key={todo._id}
+                todo={todo}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
             </ListGroup.Item>
           );
         })}
