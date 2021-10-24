@@ -61,7 +61,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Nav.Link href="/">
-        <div className="navbar-brand">NoobCoder</div>
+        <div className="navbar-brand">Todo Boilerplate</div>
       </Nav.Link>
       <div className="collapse navbar-collapse" id="navbarText">
         <ul className="navbar-nav mr-auto">
