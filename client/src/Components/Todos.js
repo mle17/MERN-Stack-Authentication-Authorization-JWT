@@ -17,9 +17,32 @@ const Todos = (props) => {
     });
   }, []);
 
-  const onSubmit = (e) => {
+  const onCreate = (e) => {
     e.preventDefault();
     TodoService.postTodo(todo).then((data) => {
+      const { message } = data;
+      resetForm();
+      if (!message.msgError) {
+        TodoService.getTodos().then((getData) => {
+          setTodos(getData.todos);
+          setMessage(message);
+        });
+      } else if (message.msgBody === "UnAuthorized") {
+        setMessage(message);
+        authContext.setUser({ username: "", role: "" });
+        authContext.setIsAuthenticated(false);
+      } else {
+        setMessage(message);
+      }
+    });
+  };
+
+  const onEdit = (e,todo) => {
+    e.preventDefault();
+    console.log("AAAA")
+    console.log(todo)
+
+    TodoService.updateTodo(todo).then((data) => {
       const { message } = data;
       resetForm();
       if (!message.msgError) {
@@ -71,13 +94,13 @@ const Todos = (props) => {
         {todos.map((todo) => {
           return ( 
             <ListGroup.Item>
-              <TodoItem key={todo._id} todo={todo} onDelete={onDelete}/>
+              <TodoItem key={todo._id} todo={todo} onDelete={onDelete} onEdit={onEdit}/>
             </ListGroup.Item>
           );
         })}
       </ListGroup>
       <br />
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onCreate}>
         <label htmlFor="todo">Enter Todo</label>
         <input
           type="text"
