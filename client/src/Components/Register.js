@@ -5,7 +5,11 @@ import Message from "../Components/Message";
 import { Button, Form } from "react-bootstrap";
 
 const Register = (props) => {
-  const [user, setUser] = useState({ username: "", password: "", role: "" });
+  const [user, setUser] = useState({ 
+    username: "", 
+    password: "", 
+    role: "" 
+  });
   const [message, setMessage] = useState(null);
   let timerID = useRef(null);
 
@@ -43,8 +47,8 @@ const Register = (props) => {
         <h3>Registration</h3>
 
         {/* Username */}
-        <Form.Group>
-          <Form.Label htmlFor="username" className="sr-only">
+        <Form.Group className="mb-3">
+          <Form.Label>
             Username
           </Form.Label>
           <Form.Control
@@ -58,8 +62,8 @@ const Register = (props) => {
         </Form.Group>
 
         {/* Password */}
-        <Form.Group>
-          <Form.Label htmlFor="password" className="sr-only">
+        <Form.Group className="mb-3">
+          <Form.Label>
             Password
           </Form.Label>
           <Form.Control
@@ -73,8 +77,8 @@ const Register = (props) => {
         </Form.Group>
 
         {/* User Role */}
-        <Form.Group>
-          <Form.Label htmlFor="role" className="sr-only">
+        <Form.Group className="mb-3">
+          <Form.Label>
             Role
           </Form.Label>
           <Form.Control
@@ -86,6 +90,8 @@ const Register = (props) => {
             placeholder="Enter role (admin/user)"
           />
         </Form.Group>
+
+        {/* Submit Button */}
         <Button className="btn btn-lg btn-primary btn-block" type="submit">
           Register
         </Button>
