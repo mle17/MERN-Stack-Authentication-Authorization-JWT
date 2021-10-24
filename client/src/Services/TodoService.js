@@ -1,24 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
-export default {
-  getTodos: async () => {
-    const response = await fetch("/user/todos");
+const getResponse = async (/** @type {Response} */ response) => {
+  console.log(response);
 
-    return await getResponse(response);
-  },
-  postTodo: async (/** @type {any} */ todo) => {
-    const response = await fetch("/user/todo", {
-      method: "post",
-      body: JSON.stringify(todo),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return await getResponse(response);
-  },
-};
-
-let getResponse = async (/** @type {Response} */ response) => {
   if (response.ok) {
     return await response.json();
   }
@@ -31,3 +14,39 @@ let getResponse = async (/** @type {Response} */ response) => {
     };
   }
 }
+
+export default {
+  getTodos: async () => {
+    console.log(`Calling get todos`);
+
+    const response = await fetch("/user/todos", {
+      method: "get",
+    });
+    return await getResponse(response);
+  },
+
+  postTodo: async (/** @type {any} */ todo) => {
+    console.log(`Calling create todos`);
+
+    const response = await fetch("/user/todo", {
+      method: "post",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await getResponse(response);
+  },
+
+  deleteTodo: async (/** @type {any} */ todoId) => {
+    console.log(`Calling deleting todo with ID: ${todoId}`);
+
+    const response = await fetch(`/user/todos/${todoId}`, {
+      method: "DELETE",
+    });
+
+    const responseObject = await getResponse(response);
+    return responseObject;
+  },
+};

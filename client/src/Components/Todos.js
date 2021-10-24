@@ -37,6 +37,12 @@ const Todos = (props) => {
     });
   };
 
+  const onDelete = (e, todoId) => {
+    e.preventDefault();
+  
+    TodoService.deleteTodo(todoId);
+  };
+
   const onChange = (e) => {
     setTodo({ name: e.target.value });
   };
@@ -51,7 +57,7 @@ const Todos = (props) => {
         {todos.map((todo) => {
           return ( 
             <ListGroup.Item>
-              <TodoItem key={todo._id} todo={todo} />
+              <TodoItem key={todo._id} todo={todo} id={todo._id} onDelete={onDelete}/>
             </ListGroup.Item>
           );
         })}
