@@ -39,9 +39,23 @@ export default {
     return await getResponse(response);
   },
 
+  updateTodo: async (/** @type {any} */ todo) => {
+    console.log(`Calling create todos`);
+
+    const response = await fetch("/user/todos/" + todo._id, {
+      method: "put",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await getResponse(response);
+  },
+
   deleteTodo: async (todoId) => {
     console.log(`Calling deleting todo with ID: ${todoId}`);
-    
+
     const response = await fetch("/user/todos/" + todoId, {
       method: "delete",
     });

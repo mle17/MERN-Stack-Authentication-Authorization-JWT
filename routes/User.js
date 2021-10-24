@@ -134,6 +134,16 @@ userRouter.get(
       });
   }
 );
+
+userRouter.put("/todos/:todoId",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const todoId = req.params.todoId;
+
+    const todo = await Todo.findByIdAndUpdate(todoId, req.body);
+  }
+);
+
 userRouter.delete("/todos/:todoId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
@@ -141,12 +151,15 @@ userRouter.delete("/todos/:todoId",
 
     req.user.todos.pull({ _id: todoId})
     req.user.save((err) => {
-      if (err)
-        res
-          .status(500)
+      if (err) {
+        res.status(500)
           .json({
-            message: { msgBody: "Error has occured", msgError: true },
+            message: { 
+              msgBody: "Error has occured", 
+              msgError: true 
+            },
           });
+      }
       else {
         res
           .status(200)
@@ -155,16 +168,12 @@ userRouter.delete("/todos/:todoId",
               msgBody: "Successfully created todo",
               msgError: false,
             },
-          });
-
-        
+          }).end();
       }
     });
 
     const todo = await Todo.findByIdAndDelete(todoId);
   }
-
-
 );
 
 userRouter.get(
@@ -179,7 +188,7 @@ userRouter.get(
       res
         .status(403)
         .json({
-          message: { msgBody: "You're not an admin,go away", msgError: true },
+          message: { msgBody: "You're not an admin", msgError: true },
         });
   }
 );
