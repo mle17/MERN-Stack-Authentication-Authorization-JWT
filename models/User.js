@@ -1,8 +1,7 @@
-// @ts-nocheck
-import { Schema, model } from "mongoose";
-import { hash, compare } from "bcrypt";
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -18,12 +17,12 @@ const UserSchema = new Schema({
     enum: ["user", "admin"],
     required: true,
   },
-  todos: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
+  todos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Todo" }],
 });
 
 UserSchema.pre("save", function (next) {
   if (!this.isModified("password")) return next();
-  hash(this.password, 10, (err, passwordHash) => {
+  bcrypt.hash(this.password, 10, (err, passwordHash) => {
     if (err) return next(err);
     this.password = passwordHash;
     next();
@@ -31,7 +30,7 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.comparePassword = function (password, cb) {
-  compare(password, this.password, (err, isMatch) => {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) return cb(err);
     else {
       if (!isMatch) return cb(null, isMatch);
@@ -40,4 +39,4 @@ UserSchema.methods.comparePassword = function (password, cb) {
   });
 };
 
-export default model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

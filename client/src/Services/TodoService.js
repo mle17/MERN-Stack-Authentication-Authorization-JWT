@@ -1,13 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
 const getResponse = async (/** @type {Response} */ response) => {
   console.log(response);
-
   if (response.ok) {
     return await response.json();
   }
   else {
     return { 
       message: { 
+        statusCode: response.status,
         msgBody: `Error Status Code: ${response.status}, ${response.statusText}.}`, 
         msgError: true,
       }
@@ -39,14 +39,13 @@ export default {
     return await getResponse(response);
   },
 
-  deleteTodo: async (/** @type {any} */ todoId) => {
+  deleteTodo: async (todoId) => {
     console.log(`Calling deleting todo with ID: ${todoId}`);
-
-    const response = await fetch(`/user/todos/${todoId}`, {
-      method: "DELETE",
+    
+    const response = await fetch("/user/todos/" + todoId, {
+      method: "delete",
     });
 
-    const responseObject = await getResponse(response);
-    return responseObject;
+    return await getResponse(response);
   },
 };

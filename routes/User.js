@@ -134,114 +134,37 @@ userRouter.get(
       });
   }
 );
-
-userRouter.put(
-  "/todos/:id",
+userRouter.delete("/todos/:todoId",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
+  async (req, res) => {
+    const todoId = req.params.todoId;
 
-    const { id } = req.params;
-    const { name } = req.body;
+    req.user.todos.splice(req.user.todos.indexOf(todoId), 1)
+    req.user.save((err) => {
+      if (err)
+        res
+          .status(500)
+          .json({
+            message: { msgBody: "Error has occured", msgError: true },
+          });
+      else {
+        res
+          .status(200)
+          .json({
+            message: {
+              msgBody: "Successfully created todo",
+              msgError: false,
+            },
+          });
 
-    const todo = {
-      name,
-      _id: id
-    };
-    await Todo.findByIdAndUpdate(id, todo, {new: true});
-    res.json(todo);
-  }
-);
-
-userRouter.delete(
-  "/todos/:todoId",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    console.log("User route to delete a todo.");
-
-
-
-    // try {
-      
-    // } 
-    // catch (error) {
-      
-    // }
-    // const user = await User.findById({ _id: req.user._id });
-    const { todoId } = req.params;
-
-    try {
-      const todo = await Todo.findById(todoId);
-      if (!todo) {
-        res.status(404).json({
-          message: { 
-            msgBody: "Could not find todo item: " + todoId, 
-            msgError: true },
-        });
+        
       }
+    });
 
-      todo.delete();
-      res.status(200)
-        .json({
-          message: {
-            msgBody: "Successfully deleted todo item: " + todoId,
-            msgError: false,
-          },
-        });
-    } 
-    catch (error) {
-      res.status(500)
-        .json({
-          message: {
-            msgBody: "Error when deleting todo item: " + todoId,
-            msgError: false,
-          },
-        });
-    }
-
-
-    // let todoId = req.params.id;
-    // let todos = user.todos;
-    // let todo = todos.findById(
-    //   {_id: todoId}, 
-    //   (err) => {
-    //     if (err) {
-    //       res.status(401)
-    //         .json({
-    //           message: {
-    //             msgBody: err,
-    //             msgError: true
-    //           }
-    //         });
-    //     }
-    //   });
-
-    // Todo.findByIdAndDelete(
-    //   todoId, 
-    //   (err) => {
-    //     if (err) {
-    //       res.status(401)
-    //         .json({
-    //           message: {
-    //             msgBody: err,
-    //             msgError: true
-    //           }
-    //         });
-    //     }
-    //     else {
-    //       todos.pop(todoId);
-    //       user.save();
-
-    //       res.status(200)
-    //         .json({
-    //           message: {
-    //             msgBody: "Successfully deleted todo",
-    //             msgError: false,
-    //           },
-    //       });
-    //     }
-    //   }
-    // );
+    const todo = await Todo.findByIdAndDelete(todoId);
   }
+
+
 );
 
 userRouter.get(

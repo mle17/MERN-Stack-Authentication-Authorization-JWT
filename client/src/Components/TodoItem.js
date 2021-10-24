@@ -7,7 +7,7 @@ const TodoItem = (props) => {
     <>
       <li>{props.todo.name}</li>
       <Button variant="danger" 
-        onClick={e=>props.onDelete(e,props.id)}>Delete</Button>
+        onClick={e=>props.onDelete(e, props.todo._id)}>Delete</Button>
     </>);
 };
 

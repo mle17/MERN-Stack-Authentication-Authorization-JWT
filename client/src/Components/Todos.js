@@ -37,10 +37,24 @@ const Todos = (props) => {
     });
   };
 
-  const onDelete = (e, todoId) => {
+  const onDelete = (e, todo) => {
     e.preventDefault();
-  
-    TodoService.deleteTodo(todoId);
+    TodoService.deleteTodo(todo).then((data) => {
+      const { message } = data;
+      resetForm();
+      if (!message.msgError) {
+        TodoService.getTodos().then((getData) => {
+          setTodos(getData.todos);
+          setMessage(message);
+        });
+      } else if (message.msgBody === "UnAuthorized") {
+        setMessage(message);
+        authContext.setUser({ username: "", role: "" });
+        authContext.setIsAuthenticated(false);
+      } else {
+        setMessage(message);
+      }
+    });
   };
 
   const onChange = (e) => {
@@ -57,7 +71,7 @@ const Todos = (props) => {
         {todos.map((todo) => {
           return ( 
             <ListGroup.Item>
-              <TodoItem key={todo._id} todo={todo} id={todo._id} onDelete={onDelete}/>
+              <TodoItem key={todo._id} todo={todo} onDelete={onDelete}/>
             </ListGroup.Item>
           );
         })}
