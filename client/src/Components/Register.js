@@ -20,6 +20,8 @@ const Register = (props) => {
   }, []);
 
   const onChange = (e) => {
+    console.log("Registration on change.");
+    console.log(e.target.name);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -81,13 +83,22 @@ const Register = (props) => {
           <Form.Label>
             Role
           </Form.Label>
-          <Form.Control
-            type="text"
+
+          <Form.Check
+            type={"radio"}
             name="role"
-            value={user.role}
+            id={"role-user"}
+            label={"User"}
+            value={"user"}
             onChange={onChange}
-            className="form-control"
-            placeholder="Enter role (admin/user)"
+          />
+          <Form.Check
+            type={"radio"}
+            name="role"
+            id={"role-admin"}
+            label={"Admin"}
+            value={"admin"}
+            onChange={onChange}
           />
         </Form.Group>
 
