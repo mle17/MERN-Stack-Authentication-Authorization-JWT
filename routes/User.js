@@ -139,7 +139,7 @@ userRouter.delete("/todos/:todoId",
   async (req, res) => {
     const todoId = req.params.todoId;
 
-    req.user.todos.splice(req.user.todos.indexOf(todoId), 1)
+    req.user.todos.pull({ _id: todoId})
     req.user.save((err) => {
       if (err)
         res
