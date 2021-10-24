@@ -140,7 +140,7 @@ userRouter.put("/todos/:todoId",
   async (req, res) => {
     const todoId = req.params.todoId;
 
-    const todo = await Todo.findByIdAndUpdate(todoId, req.body);
+    await Todo.findByIdAndUpdate(todoId, req.body);
   }
 );
 

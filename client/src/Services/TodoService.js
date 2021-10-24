@@ -40,7 +40,7 @@ export default {
   },
 
   updateTodo: async (/** @type {any} */ todo) => {
-    console.log(`Calling create todos`);
+    console.log(`Calling edit todos`);
 
     const response = await fetch("/user/todos/" + todo._id, {
       method: "put",
