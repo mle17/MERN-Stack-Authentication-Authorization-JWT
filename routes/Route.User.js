@@ -10,10 +10,10 @@ const Todo = require("../models/Todo");
 const signToken = (userID) => {
   return JWT.sign(
     {
-      iss: "NoobCoder",
+      iss: "MichaelLe",
       sub: userID,
     },
-    "NoobCoder",
+    "MichaelLe",
     { expiresIn: "1h" }
   );
 };
