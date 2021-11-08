@@ -7,13 +7,16 @@ app.use(express.json());
 
 mongoose.connect(
   "mongodb://localhost:27017/mernauth",
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+  },
   () => {
     console.log("successfully connected to database");
   }
 );
 
-const userRouter = require("./routes/User");
+const userRouter = require("./routes/Route.User");
 app.use("/user", userRouter);
 
 app.listen(5000, () => {
